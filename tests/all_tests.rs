@@ -25,7 +25,6 @@ failure_tests! {
 }
 
 
-// You don't need to worry about the REPL tests for now, so I commented them out.
-// repl_tests! {
-//     simple_numbers: ["42", "0", "-17"] => ["42", "0", "-17"],
-// }
+repl_tests! {
+    simple_numbers: ["42", "0", "-17"] => ["42", "0", "-17"],
+}
