@@ -43,8 +43,10 @@ fn build() {
     let status = if cfg!(target_os = "macos") {
         Command::new("cargo")
             .arg("build")
+            .arg("--target")
+            .arg("x86_64-apple-darwin")
             .status()
-            .expect("could not run cargo")
+            .expect("could not run argo")
     } else {
         Command::new("cargo")
             .arg("build")
@@ -59,7 +61,7 @@ fn compile(name: &str) -> Result<(String, String), String> {
 
     // Run the compiler
     let boa_path = if cfg!(target_os = "macos") {
-        PathBuf::from("target/debug/boa")
+        PathBuf::from("target/x86_64-apple-darwin/debug/boa")
     } else {
         PathBuf::from("target/debug/boa")
     };
