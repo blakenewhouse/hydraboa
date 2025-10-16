@@ -1,12 +1,9 @@
-.PRECIOUS: test/%.s
+.PRECIOUS: tests/%.s
 
-compile:
-	cargo run -- -c test.snek test.s
+tests/%.s: tests/%.snek src/main.rs
+	cargo run -- -c $< tests/$*.s
 
-test/%.s: test/%.snek src/main.rs
-	cargo run --target x86_64-apple-darwin -- -c $< test/$*.s
-
-test/%.run: test/%.s runtime/start.rs
-	nasm -f macho64 test/$*.s -o runtime/our_code.o
+tests/%.run: tests/%.s runtime/start.rs
+	nasm -f elf64 tests/$*.s -o runtime/our_code.o
 	ar rcs runtime/libour_code.a runtime/our_code.o
-	rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/$*.run
+	rustc -L runtime/ runtime/start.rs -o tests/$*.run

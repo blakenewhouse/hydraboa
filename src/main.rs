@@ -499,6 +499,10 @@ our_code_starts_here:
             let out_name = &args[3];
             let mut out_file = File::create(out_name)?;
             out_file.write_all(asm_program.as_bytes())?;
+            match eval_snek(&in_contents) {
+                Ok(result) => println!("{}", result),
+                Err(e) => eprintln!("Error: {}", e),
+            }
         }
         "-e" => {
             if args.len() != 3 {
