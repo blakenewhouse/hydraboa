@@ -1,0 +1,120 @@
+blakenewhouse@Blakes-Air adder % cat test/12.snek                                              
+(add1 (sub1 (sub1 13)))%                                                                                
+blakenewhouse@Blakes-Air adder % make test/12.run                                               
+cargo run --target x86_64-apple-darwin -- test/12.snek test/12.s
+   Compiling adder v0.1.0 (/Users/blakenewhouse/Desktop/ucsdClasses/cse131/adder)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.66s
+     Running `target/x86_64-apple-darwin/debug/adder test/12.snek test/12.s`
+12
+nasm -f macho64 test/12.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/12.run
+blakenewhouse@Blakes-Air adder % cat test/12.s                                                  
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 13
+sub rax, 1
+sub rax, 1
+add rax, 1
+  ret
+blakenewhouse@Blakes-Air adder % cargo run --target x86_64-apple-darwin -- test/12.snek test/12.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/12.snek test/12.s`
+12
+blakenewhouse@Blakes-Air adder % cat test/neg.snek                                              
+(neg 12)%                                                                                               
+blakenewhouse@Blakes-Air adder % make test/neg.run                                               
+cargo run --target x86_64-apple-darwin -- test/neg.snek test/neg.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg.snek test/neg.s`
+-12
+nasm -f macho64 test/neg.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg.run
+blakenewhouse@Blakes-Air adder % cat test/neg.s                                                  
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 12
+neg rax
+  ret
+blakenewhouse@Blakes-Air adder % cargo run --target x86_64-apple-darwin -- test/neg.snek test/neg.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg.snek test/neg.s`
+-12
+blakenewhouse@Blakes-Air adder % cat test/neg2.snek                                               
+(sub1 (sub1 (neg 3)))%                                                                                  
+blakenewhouse@Blakes-Air adder % make test/neg2.run                                                
+cargo run --target x86_64-apple-darwin -- test/neg2.snek test/neg2.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg2.snek test/neg2.s`
+-5
+nasm -f macho64 test/neg2.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg2.run
+blakenewhouse@Blakes-Air adder % cat test/neg2.s                                                   
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 3
+neg rax
+sub rax, 1
+sub rax, 1
+  ret
+blakenewhouse@Blakes-Air adder % cargo run --target x86_64-apple-darwin -- test/neg2.snek test/neg2.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg2.snek test/neg2.s`
+-5
+blakenewhouse@Blakes-Air adder % cat test/neg1.snek                                                 
+(add1 (add1 (neg 1)))%                                                                                  
+blakenewhouse@Blakes-Air adder % make test/neg1.run                                                  
+cargo run --target x86_64-apple-darwin -- test/neg1.snek test/neg1.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg1.snek test/neg1.s`
+1
+nasm -f macho64 test/neg1.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg1.run
+blakenewhouse@Blakes-Air adder % cat test/neg1.s                                                     
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 1
+neg rax
+add rax, 1
+add rax, 1
+  ret
+blakenewhouse@Blakes-Air adder % cargo run --target x86_64-apple-darwin -- test/neg1.snek test/neg1.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg1.snek test/neg1.s`
+1
+blakenewhouse@Blakes-Air adder % cat test/neg3.snek                                                 
+(neg (add1 (neg (sub1 14))))%                                                                           
+blakenewhouse@Blakes-Air adder % make test/neg3.run                                                  
+cargo run --target x86_64-apple-darwin -- test/neg3.snek test/neg3.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg3.snek test/neg3.s`
+12
+nasm -f macho64 test/neg3.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/neg3.run
+blakenewhouse@Blakes-Air adder % cat test/neg3.s                                                     
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 14
+sub rax, 1
+neg rax
+add rax, 1
+neg rax
+  ret
+blakenewhouse@Blakes-Air adder % cargo run --target x86_64-apple-darwin -- test/neg3.snek test/neg3.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/x86_64-apple-darwin/debug/adder test/neg3.snek test/neg3.s`
+12
